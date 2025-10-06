@@ -11,7 +11,7 @@ function AppIcon({name, size, iconColor = 'black', backgroundColor}) {
     );
 }
 const styles = StyleSheet.create({
-    
+    // Styles can be added here if needed
 })
 
 export default AppIcon;

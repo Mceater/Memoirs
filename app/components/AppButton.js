@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity , StyleSheet, View, button} from 'react-native-web';
+import { Text, TouchableOpacity , StyleSheet, View} from 'react-native';
 import { useNavigation } from  '@react-navigation/native';
 import AppColors from '../config/AppColors';
 

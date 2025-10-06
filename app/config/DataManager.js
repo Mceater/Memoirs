@@ -49,6 +49,6 @@ export default class DataManager {
   }
 
   addMemories(memory) {
-    this.memories.push(image);
+    this.memories.push(memory);
   }
 }

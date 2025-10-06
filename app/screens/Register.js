@@ -7,6 +7,7 @@ import * as Yup from "yup";
 
 const schema = Yup.object().shape(
     {
+        name: Yup.string().required().min(2).label("Name"),
         email: Yup.string().required().email().label("Email"),
         password:  Yup.string().required().min(4).max(8).label("Password"),
     }
@@ -16,12 +17,17 @@ const schema = Yup.object().shape(
 
 
 function Register({navigation, users, setUsers}) {
-    const [name, setName] = React.useState();
-    const [email, setEmail] = React.useState();
-    const [password, setPassword] = React.useState();
-
-    const handlePress = () => {
-        alert('User has been successfully created')
+    const handlePress = (values) => {
+        const newUser = {
+            id: `user${users.length + 1}`,
+            name: values.name,
+            email: values.email,
+            password: values.password,
+            image: require("../assets/batman.jpg") // Default image
+        };
+        setUsers([...users, newUser]);
+        alert('User has been successfully created');
+        navigation.navigate('Login');
     }
 
 
@@ -37,36 +43,71 @@ function Register({navigation, users, setUsers}) {
             <View style={styles.authBox}>
                 <Text style={styles.header}>Join Now</Text>
                 <Text style={styles.subTitle}>Create an account to join.</Text>
-                <View style={styles.input}>
-                    <MaterialCommunityIcons name="human" size={20} />
-                    <TextInput placeholder='Type in your fullname' 
-                        style={styles.textbox} 
-                        value={name}
-                        placeholderTextColor ={'#000000'}
-                        onChangeText={text => setName(text)}
-                    />
-                </View>
-                <View style={styles.input}>
-                    <MaterialCommunityIcons name="email" size={20} />
-                    <TextInput placeholder='Type in your username' 
-                        style={styles.textbox} 
-                        value={email}
-                        placeholderTextColor ={'#000000'}
-                        onChangeText={text => setEmail(text)}
-                    />
-                </View>
-                <View style={styles.input}>
-                <MaterialCommunityIcons name="key" size={20} />
-                    <TextInput placeholder='Type in your password' 
-                        style={styles.textbox} 
-                        placeholderTextColor ={'#000000'}
-                        onChangeText={text => setPassword(text)}
-                        value={password} secureTextEntry={true}
-                    />
-                </View>
-                <AppButton title="Register" onPress={handlePress}/>
-                <AppButton title="Login" navigation={navigation} onPress={() => navigation.navigate('Login')}/>
-
+                <Formik
+                    initialValues={{ name: "", email: "", password: "" }}
+                    onSubmit={(values, { resetForm }) => {
+                        handlePress(values);
+                        resetForm();
+                    }}
+                    validationSchema={schema}
+                >
+                    {({
+                        values,
+                        handleChange,
+                        handleSubmit,
+                        errors,
+                        setFieldTouched,
+                        touched,
+                    }) => (
+                        <>
+                            <View style={styles.input}>
+                                <MaterialCommunityIcons name="human" size={20} />
+                                <TextInput 
+                                    placeholder='Type in your fullname' 
+                                    style={styles.textbox} 
+                                    value={values.name}
+                                    placeholderTextColor={'#000000'}
+                                    onBlur={() => setFieldTouched("name")}
+                                    onChangeText={handleChange("name")}
+                                />
+                            </View>
+                            {touched.name && errors.name && (
+                                <Text style={styles.errorText}>{errors.name}</Text>
+                            )}
+                            <View style={styles.input}>
+                                <MaterialCommunityIcons name="email" size={20} />
+                                <TextInput 
+                                    placeholder='Type in your email' 
+                                    style={styles.textbox} 
+                                    value={values.email}
+                                    placeholderTextColor={'#000000'}
+                                    onBlur={() => setFieldTouched("email")}
+                                    onChangeText={handleChange("email")}
+                                />
+                            </View>
+                            {touched.email && errors.email && (
+                                <Text style={styles.errorText}>{errors.email}</Text>
+                            )}
+                            <View style={styles.input}>
+                                <MaterialCommunityIcons name="key" size={20} />
+                                <TextInput 
+                                    placeholder='Type in your password' 
+                                    style={styles.textbox} 
+                                    placeholderTextColor={'#000000'}
+                                    value={values.password}
+                                    onBlur={() => setFieldTouched("password")}
+                                    onChangeText={handleChange("password")}
+                                    secureTextEntry={true}
+                                />
+                            </View>
+                            {touched.password && errors.password && (
+                                <Text style={styles.errorText}>{errors.password}</Text>
+                            )}
+                            <AppButton title="Register" onPress={handleSubmit}/>
+                            <AppButton title="Login" onPress={() => navigation.navigate('Login')}/>
+                        </>
+                    )}
+                </Formik>
             </View>
         </View>
  
@@ -126,7 +167,13 @@ const styles =StyleSheet.create({
     icon: {
         marginTop:'15%',
        alignItems: 'center'
-      },  
+      },
+    errorText: {
+        color: 'red',
+        fontSize: 12,
+        marginLeft: 10,
+        marginBottom: 5,
+    },
     
 })
 

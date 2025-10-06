@@ -1,12 +1,8 @@
 import React from 'react'; 
-import renderer from "react-test-rendere";
-import Login from './screens';
+import renderer from "react-test-renderer";
+import Login from './screens/Login';
 
-
-
-
-test("trivally true", () => {
-    const json =renderer.create(<Login/>).toJSON();
-    console.log(json.props.style)
-
+test("Login component renders correctly", () => {
+    const tree = renderer.create(<Login />).toJSON();
+    expect(tree).toBeTruthy();
 });

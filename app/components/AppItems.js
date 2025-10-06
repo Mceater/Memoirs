@@ -5,7 +5,6 @@ import {
   Image,
   Text,
   TouchableOpacity,
-  button,
 } from "react-native";
 
 import AppColors from "../config/AppColors";

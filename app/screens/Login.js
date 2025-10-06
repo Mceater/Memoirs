@@ -17,38 +17,22 @@ const schema = Yup.object().shape({
   password: Yup.string().required().min(4).max(8).label("Password"),
 });
 
-const users = [
-  {
-    id: "user1",
-    name: "Bruce Wayne",
-    email: "batman@gmail.com",
-    password: "1234",
-    image: require("../assets/batman.jpg"),
-  },
-  {
-    id: "user2",
-    name: "Jack Dorsey",
-    email: "jdorsey@gmail.com",
-    password: "2345",
-    image: require("../assets/Jack.jpg"),
-  },
-];
-const validateUser = ({ email, password }) => {
+const validateUser = ({ email, password }, users) => {
   return (
     users.filter((user) => user.email === email && user.password === password)
       .length > 0
   );
 };
-const getUser = ({ email }) => {
+const getUser = ({ email }, users) => {
   return users.find((user) => user.email === email);
 };
-const createUser = ({ email }) => {
+const createUser = ({ email }, users) => {
   let commonData = DataManager.getInstance();
-  let userID = getUser({ email }).id;
+  let userID = getUser({ email }, users).id;
   commonData.setUserID(userID);
 };
 
-function Login({ navigation }) {
+function Login({ navigation, users }) {
   return (
     <ImageBackground
       source={require("../assets/baw.jpg")}
@@ -63,13 +47,13 @@ function Login({ navigation }) {
         onSubmit={(values, { resetForm }) => {
           if (validateUser(values, users)) {
             resetForm();
-            createUser(values);
+            createUser(values, users);
             navigation.navigate("AccountPage", {
               screen: "AccountPage",
               params: {
                 paramEmail: values.email,
-                paramName: getUser(values).name,
-                paramImage: getUser(values).image,
+                paramName: getUser(values, users).name,
+                paramImage: getUser(values, users).image,
               },
             });
           } else {
