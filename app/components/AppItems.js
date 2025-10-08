@@ -8,16 +8,18 @@ import {
 } from "react-native";
 
 import AppColors from "../config/AppColors";
+import { useTheme } from '../config/ThemeContext';
 
 function AppItems({ image, title, subtitle, IconComponent, onPress }) {
+  const { colors } = useTheme();
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
         {IconComponent}
         {image && <Image source={image} style={styles.image} />}
         <View style={styles.textContainer}>
-          <Text style={styles.title}>{title}</Text>
-          {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
+          <Text style={[styles.title, { color: colors.textPrimary }]}>{title}</Text>
+          {subtitle && <Text style={[styles.subtitle, { color: colors.textSecondary }]}>{subtitle}</Text>}
         </View>
       </View>
     </TouchableOpacity>
@@ -27,7 +29,7 @@ function AppItems({ image, title, subtitle, IconComponent, onPress }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    alignContent: "center",
+    alignItems: "center",
   },
   image: {
     height: 75,
@@ -42,11 +44,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: "bold",
-    color: AppColors.otherColor,
   },
   subtitle: {
     fontWeight: "bold",
-    color: AppColors.otherColor,
   },
 });
 

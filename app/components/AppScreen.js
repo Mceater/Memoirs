@@ -1,16 +1,18 @@
 import React from "react";
-import { View, StyleSheet, ImageBackground } from "react-native";
+import { View, StyleSheet } from "react-native";
+import { LinearGradient } from 'expo-linear-gradient';
+import { useTheme } from '../config/ThemeContext';
 
 function AppScreen({ children, style }) {
+  const { colors } = useTheme();
+  
   return (
-    <ImageBackground
-      source={require("../assets/baw.jpg")}
-      blurRadius={2}
-      style={styles.background}
+    <LinearGradient
+      colors={colors.backgroundGradient}
+      style={[styles.background, style]}
     >
-      <View style={styles.icon}></View>
       <View style={styles.container}>{children}</View>
-    </ImageBackground>
+    </LinearGradient>
   );
 }
 
@@ -21,11 +23,7 @@ const styles = StyleSheet.create({
   background: {
     width: "100%",
     height: "100%",
-  },
-  icon: {
-    marginTop: "15%",
-    alignItems: "center",
-  },
+  }
 });
 
 export default AppScreen;

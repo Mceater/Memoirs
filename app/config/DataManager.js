@@ -51,4 +51,11 @@ export default class DataManager {
   addMemories(memory) {
     this.memories.push(memory);
   }
+
+  deleteMemory(memoryId) {
+    const index = this.memories.findIndex((m) => m.memoryid === memoryId);
+    if (index !== -1) {
+      this.memories.splice(index, 1);
+    }
+  }
 }

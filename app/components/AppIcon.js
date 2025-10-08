@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View,  } from 'react-native';
+import { View } from 'react-native';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 
 
@@ -10,8 +10,4 @@ function AppIcon({name, size, iconColor = 'black', backgroundColor}) {
         </View>
     );
 }
-const styles = StyleSheet.create({
-    // Styles can be added here if needed
-})
-
 export default AppIcon;
