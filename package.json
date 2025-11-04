@@ -7,7 +7,7 @@
     "android": "NODE_OPTIONS=--openssl-legacy-provider expo start --android",
     "ios": "NODE_OPTIONS=--openssl-legacy-provider expo start --ios",
     "web": "NODE_OPTIONS=--openssl-legacy-provider expo start --web",
-    "build:web": "expo export --platform web --output-dir dist",
+    "build": "npm run build:web",
     "deploy": "gh-pages -d dist",
     "eject": "expo eject",
     "test": "jest"
